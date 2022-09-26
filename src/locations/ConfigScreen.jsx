@@ -1,12 +1,11 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { Heading, Form, Paragraph, Flex } from '@contentful/f36-components';
+import { Heading, Form, FormControl, Flex, TextInput, TextLink } from '@contentful/f36-components';
 import { css } from 'emotion';
 import { /* useCMA, */ useSDK } from '@contentful/react-apps-toolkit';
 
 const ConfigScreen = () => {
   const [parameters, setParameters] = useState({ rawgApiKey: '' });
   const sdk = useSDK();
-  console.log('adfadsfasdf');
   /*
      To use the cma, inject it as follows.
      If it is not needed, you can remove the next line.
@@ -50,11 +49,25 @@ const ConfigScreen = () => {
     })();
   }, [sdk]);
 
+  const handleValueChange = (e, paramName) => {
+    setParameters({ ...parameters, [paramName]: e.target.value });
+  };
+
   return (
     <Flex flexDirection='column' className={css({ margin: '80px', maxWidth: '800px' })}>
       <Form>
-        <Heading>App Config</Heading>
-        <Paragraph>Welcome to your contentful app. This is your config page.</Paragraph>
+        <Heading>RAWG.io Configuration</Heading>
+        <FormControl as='fieldset' isRequired>
+          <FormControl.Label>API Key</FormControl.Label>
+          <TextInput id='rawgApiKey' name='rawgApiKey' value={parameters.rawgApiKey || ''} onChange={(e) => handleValueChange(e, 'rawgApiKey')} />
+          <FormControl.HelpText>
+            Head on over to{' '}
+            <TextLink href='https://rawg.io/apidocs' target='_blank'>
+              RAWG.io
+            </TextLink>{' '}
+            to get your key.
+          </FormControl.HelpText>
+        </FormControl>
       </Form>
     </Flex>
   );
