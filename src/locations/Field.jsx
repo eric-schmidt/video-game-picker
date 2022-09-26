@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Box, Button, EntityList, MenuItem } from '@contentful/f36-components';
-import { JsonEditor } from '@contentful/field-editor-json';
 import { /* useCMA, */ useSDK, useFieldValue } from '@contentful/react-apps-toolkit';
+// import { JsonEditor } from '@contentful/field-editor-json';
 
 const Field = () => {
   const sdk = useSDK();
@@ -11,6 +11,7 @@ const Field = () => {
     const result = await sdk.dialogs.openCurrentApp({
       shouldCloseOnEscapePress: true,
       shouldCloseOnOverlayClick: true,
+      minHeight: '600px',
       // title: 'Select a game',
       // @ts-expect-error The App SDK types are not correct :(
       parameters: value,
