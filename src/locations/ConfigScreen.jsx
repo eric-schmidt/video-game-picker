@@ -59,7 +59,13 @@ const ConfigScreen = () => {
         <Heading>RAWG.io Configuration</Heading>
         <FormControl as='fieldset' isRequired>
           <FormControl.Label>API Key</FormControl.Label>
-          <TextInput id='rawgApiKey' name='rawgApiKey' value={parameters.rawgApiKey || ''} onChange={(e) => handleValueChange(e, 'rawgApiKey')} />
+          <TextInput
+            type='password'
+            id='rawgApiKey'
+            name='rawgApiKey'
+            value={parameters.rawgApiKey || ''}
+            onChange={(e) => handleValueChange(e, 'rawgApiKey')}
+          />
           <FormControl.HelpText>
             Head on over to{' '}
             <TextLink href='https://rawg.io/apidocs' target='_blank'>

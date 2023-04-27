@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react';
-import { Box, Button, EntityList, MenuItem } from '@contentful/f36-components';
-import { /* useCMA, */ useSDK, useFieldValue } from '@contentful/react-apps-toolkit';
-// import { JsonEditor } from '@contentful/field-editor-json';
+import React, { useEffect } from "react";
+import { Box, Button, EntityList, MenuItem } from "@contentful/f36-components";
+import {
+  /* useCMA, */ useSDK,
+  useFieldValue,
+} from "@contentful/react-apps-toolkit";
+import { JsonEditor } from "@contentful/field-editor-json";
 
 const Field = () => {
   const sdk = useSDK();
@@ -11,7 +14,7 @@ const Field = () => {
     const result = await sdk.dialogs.openCurrentApp({
       shouldCloseOnEscapePress: true,
       shouldCloseOnOverlayClick: true,
-      minHeight: '600px',
+      minHeight: "600px",
       // title: 'Select a game',
       // @ts-expect-error The App SDK types are not correct :(
       parameters: value,
@@ -26,6 +29,7 @@ const Field = () => {
 
   useEffect(() => {
     sdk.window.startAutoResizer();
+    console.log(sdk.window);
   }, [sdk.window]);
 
   /*
@@ -39,8 +43,8 @@ const Field = () => {
 
   return (
     <>
-      <Box marginBottom='spacingM'>
-        <Button variant='primary' onClick={handleClick}>
+      <Box marginBottom="spacingM">
+        <Button variant="primary" onClick={handleClick}>
           Select a game
         </Button>
       </Box>
@@ -51,7 +55,7 @@ const Field = () => {
             thumbnailUrl={value.game.image}
             actions={[
               <MenuItem
-                key='remove'
+                key="remove"
                 onClick={() => {
                   sdk.field.removeValue();
                 }}
