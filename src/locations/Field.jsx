@@ -66,7 +66,7 @@ const Field = () => {
           />
         </EntityList>
       )}
-      {/* <JsonEditor field={sdk.field} /> */}
+      <JsonEditor field={sdk.field} />
     </>
   );
 };
