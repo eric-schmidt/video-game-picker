@@ -1,7 +1,9 @@
 {
-  "name": "video-game-picker",
+  "name": "contentful-video-game-picker",
   "version": "0.1.0",
-  "private": true,
+  "author": "Eric Schmidt",
+  "license": "ISC",
+  "private": false,
   "dependencies": {
     "@contentful/app-sdk": "4.12.1",
     "@contentful/f36-components": "4.20.6",
