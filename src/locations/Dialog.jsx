@@ -1,21 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Button, EntityList, Form, FormControl, Spinner, TextInput, TextLink } from '@contentful/f36-components';
-import { /* useCMA, */ useSDK } from '@contentful/react-apps-toolkit';
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  EntityList,
+  Form,
+  FormControl,
+  Spinner,
+  TextInput,
+  TextLink,
+} from "@contentful/f36-components";
+import { useSDK } from "@contentful/react-apps-toolkit";
 
 const Dialog = () => {
-  /*
-     To use the cma, inject it as follows.
-     If it is not needed, you can remove the next line.
-  */
-  // const cma = useCMA();
-
   const sdk = useSDK();
-  const rawgApiKey = sdk.parameters.installation.rawgApiKey;
-  const pageSize = '5';
+  const apiKey = sdk.parameters.installation.apiKey;
+  const pageSize = "5";
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchUrl, setSearchUrl] = useState(`https://api.rawg.io/api/games?key=${rawgApiKey}&page_size=${pageSize}`);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchUrl, setSearchUrl] = useState(
+    `https://api.rawg.io/api/games?key=${apiKey}&page_size=${pageSize}`
+  );
   const [gameData, setGameData] = useState();
 
   const fetchGames = async (url) => {
@@ -44,34 +49,37 @@ const Dialog = () => {
   const Results = () => {
     if (error) {
       return (
-        <Box marginTop='spacingL' marginBottom='spacingL'>
-          Error! Please ensure you've added your{' '}
-          <TextLink href='https://rawg.io/apidocs' target='_blank'>
+        <Box marginTop="spacingL" marginBottom="spacingL">
+          Error! Please ensure you've added your{" "}
+          <TextLink href="https://rawg.io/apidocs" target="_blank">
             RAWG.io API key
-          </TextLink>{' '}
-          on the Video Game Picker app configuration screen. Check your browser's console for more error details.
+          </TextLink>{" "}
+          on the Video Game Picker app configuration screen. Check your
+          browser's console for more error details.
         </Box>
       );
     } else if (gameData && gameData.count === 0) {
       return (
-        <Box marginTop='spacingL' marginBottom='spacingL'>
+        <Box marginTop="spacingL" marginBottom="spacingL">
           No Results Found. Please try a different search term.
         </Box>
       );
     } else if (!gameData || loading) {
       return (
-        <Box marginTop='spacingL' marginBottom='spacingL'>
+        <Box marginTop="spacingL" marginBottom="spacingL">
           <Spinner customSize={50} />
         </Box>
       );
     } else {
       return (
-        <Box marginTop='spacingXl' marginBottom='spacingM'>
+        <Box marginTop="spacingXl" marginBottom="spacingM">
           <EntityList>
             {gameData.results.map((game) => (
               <EntityList.Item
                 key={game.id}
-                title={`${game.name}${sdk.parameters.invocation === game.name ? ' (selected)' : ''}`}
+                title={`${game.name}${
+                  sdk.parameters.invocation === game.name ? " (selected)" : ""
+                }`}
                 thumbnailUrl={game.background_image}
                 onClick={() =>
                   sdk.close({
@@ -93,22 +101,31 @@ const Dialog = () => {
 
   return (
     <>
-      <Box paddingTop='spacingL' paddingRight='spacing2Xl' paddingBottom='spacingL' paddingLeft='spacing2Xl'>
+      <Box
+        paddingTop="spacingL"
+        paddingRight="spacing2Xl"
+        paddingBottom="spacingL"
+        paddingLeft="spacing2Xl"
+      >
         <Form
           onSubmit={() => {
-            fetchGames(`https://api.rawg.io/api/games?key=${rawgApiKey}&search=${searchTerm}&page_size=${pageSize}`);
+            fetchGames(
+              `https://api.rawg.io/api/games?key=${apiKey}&search=${searchTerm}&page_size=${pageSize}`
+            );
           }}
         >
-          <FormControl marginBottom='spacingXs'>
+          <FormControl marginBottom="spacingXs">
             <FormControl.Label>Search</FormControl.Label>
             <TextInput
               onChange={(e) => {
                 setSearchTerm(e.target.value);
               }}
             />
-            <FormControl.HelpText>Please enter some search terms.</FormControl.HelpText>
+            <FormControl.HelpText>
+              Please enter some search terms.
+            </FormControl.HelpText>
           </FormControl>
-          <Button type='submit' variant='primary'>
+          <Button type="submit" variant="primary">
             Search
           </Button>
         </Form>
@@ -118,8 +135,14 @@ const Dialog = () => {
 
         <Box>
           {/* Use the provided prev/next URLs that RAWG supplies, reactively updating searchUrl re-triggers the fetch. */}
-          {gameData && gameData.previous && <Button onClick={() => setSearchUrl(gameData.previous)}>Previous</Button>}
-          {gameData && gameData.next && <Button onClick={() => setSearchUrl(gameData.next)}>Next</Button>}
+          {gameData && gameData.previous && (
+            <Button onClick={() => setSearchUrl(gameData.previous)}>
+              Previous
+            </Button>
+          )}
+          {gameData && gameData.next && (
+            <Button onClick={() => setSearchUrl(gameData.next)}>Next</Button>
+          )}
         </Box>
       </Box>
     </>
